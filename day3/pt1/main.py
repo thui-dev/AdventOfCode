@@ -4,8 +4,8 @@ import re
 def mul(a, b):
 	return a*b
 
-l = re.findall("mul\([0-9]*,[0-9]*\)", open("../input.txt").read())
+instructions = re.findall("mul\([0-9]*,[0-9]*\)", open("../input.txt").read())
 
-#print(*l, sep='\n')
+#print(*instructions, sep='\n')
 
-print(sum(list(map(eval, l))))
+print(sum(list(map(eval, instructions))))
