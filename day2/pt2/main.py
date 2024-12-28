@@ -1,7 +1,7 @@
 
 f = open("./input.txt")
 
-final, report = list(), list()
+final, report = [], []
 for line in f:
     report.append(list(map(int, line.split())))
     final.append(0)
