@@ -26,7 +26,7 @@ def clear_donts(a):
 
 instructions = re.findall("mul\([0-9]*,[0-9]*\)|do\(\)|don't\(\)", open("../input.txt").read())
 
-instructions = list(map(clear_donts, instructions)) #cant define function "don't()", so changing all occurences of it to "dont()"
+instructions = list(map(clear_donts, instructions)) #cant define function "don't()", so changing all occurances of it to "dont()"
 
 #print(*instructions, sep='\n')
 #print(*list(map(eval, instructions)), sep="\n")
