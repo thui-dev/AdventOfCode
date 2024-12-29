@@ -1,4 +1,4 @@
-def main0():
+def main():
 	f = open("../input.txt").read().split('\n\n')
 	rules = f[0].split('\n')
 	rules = [list(int(i) for i in line.split('|')) for line in rules]
@@ -15,4 +15,4 @@ def main0():
 
 	print(sum([line[len(line)//2] for line in filter(check, updates)]))
 
-main0()
+main()

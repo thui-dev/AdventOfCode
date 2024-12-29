@@ -15,10 +15,16 @@ def main():
 
 	def check(line):
 		for i, item in enumerate(line):
-			if set(line[:i]) & bf_af_rules[0].get(item, set()) != set():
-					return True
-			if set(line[i+1:]) & bf_af_rules[1].get(item, set()) != set():			
-					return True
+			try:
+				#check for contradiction: if theres an item that's BEFORE (line[:item]), and should be AFTER (map_rules[item])
+				if set(line[:i]) & bf_af_rules[0][item] != set():
+					return False
+			except: pass
+			try:
+				#the same thing, just swapped: item that AFTER and should be BEFORE
+				if set(line[i+1:]) & bf_af_rules[1][item] != set():			
+					return False
+			except: pass
 		return True
 
 	print(sum([line[len(line)//2] for line in filter(check, updates)]))
