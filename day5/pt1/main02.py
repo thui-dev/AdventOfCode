@@ -5,7 +5,7 @@ def main02():
 	updates = f[1].split('\n')
 	updates = [[int(i) for i in line.split(',')] for line in updates]
 	
-	map_rules = [{}, {}]
+	map_rules = [{}, {}] #after, before
 	map_seen =  [set(), set()]
 	for n in range(2):
 		for rule in rules:
@@ -16,7 +16,7 @@ def main02():
 	def check(line):
 		for i, item in enumerate(line):
 			try:
-				#check for contradiction: if theres an item that's BEFORE (line[:item]), and should be AFTER (after_rules[item])
+				#check for contradiction: if theres an item that's BEFORE (line[:item]), and should be AFTER (map_rules[item])
 				if set(line[:i]) & map_rules[0][item] != set():
 					return False
 			except: pass
