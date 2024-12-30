@@ -4,8 +4,8 @@ import cProfile
 import sys
 import os
 
-SCRIPTS = 2
-RUNS = 100
+SCRIPTS = 1
+RUNS = 1000
 
 script = [None]*SCRIPTS
 for i in range(SCRIPTS):

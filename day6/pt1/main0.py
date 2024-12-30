@@ -11,9 +11,10 @@ def actions(board, pos, dir):
     #if obstruction, change dir to right
         if board[new_pos_x][new_pos_y] == '#':
             return actions(board, pos, dir+1)
+    #if out of bounds, finished the maze. stop everything.
     except: return None
 
-    #else, next pos is fine. return it
+    #else, new_pos is fine. return it
     return ((new_pos_x, new_pos_y), dir)
 
 
@@ -31,9 +32,7 @@ def init_pos(board):
 
 def main():
 
-    f = open("../input.txt").read().split('\n')
-
-    board = [list(line) for line in f]
+    board = [list(line) for line in open("../input.txt").read().split('\n')]
     pos = init_pos(board)
     dir = 0
 
