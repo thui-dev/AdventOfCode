@@ -16,9 +16,9 @@ def main():
 	def check(line):
 		for i, item in enumerate(line):
 			if set(line[:i]) & bf_af_rules[0].get(item, set()) != set():
-					return True
+				return True
 			if set(line[i+1:]) & bf_af_rules[1].get(item, set()) != set():			
-					return True
+				return True
 		return True
 
 	print(sum([line[len(line)//2] for line in filter(check, updates)]))
