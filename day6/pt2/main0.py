@@ -49,35 +49,34 @@ def run_maze(board, pos):
         else:
             explored.add((action, dir%4))
     return False
-    
+
 
 def main():
     board = [list(line) for line in open("../input.txt").read().split('\n')]
     pos = init_pos(board)
+    path = set()
+
+    dir = 0
+    while actions(board, pos, dir) is not None:
+        action, dir = actions(board, pos, dir)
+        pos = action
+        path.add(pos)
+
+    pos = init_pos(board)
     
     loops = 0
-    for i, line in enumerate(board):
-        for j, item in enumerate(line):
+    sex = 0
+    for i, j in path:
+        sex += 1
+        new_board = deepcopy(board)
+        new_board[i][j] = '#'
+        if run_maze(new_board, pos):
+            loops += 1
 
-            new_board = deepcopy(board)
+        os.system('cls')
+        print(f"analisando {sex} de {len(path)} coords em board")
 
-            #edge case of finding player
-            if item == '^':
-                continue
-            #already block there, already calculated.
-            if item == '#':
-                continue
-            
-            new_board[i][j] = '#'
-            if run_maze(new_board, pos):
-                loops += 1
-        #debug
-        if i == 5:
-            break
-        #os.system('cls')
-        #print(f"analisando {i} de {len(board)} linhas em board")
-
-    #os.system('cls')
-    #print(loops)
+    os.system('cls')
+    print(loops)
 
 main()
