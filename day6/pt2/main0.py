@@ -52,7 +52,7 @@ def run_maze(board, pos):
 
 
 def main():
-    board = [list(line) for line in open("../demo.txt").read().split('\n')]
+    board = [list(line) for line in open("../input.txt").read().split('\n')]
     pos = init_pos(board)
     path = deepcopy(board)
 
@@ -76,8 +76,8 @@ def main():
             if run_maze(new_board, pos):
                 loops += 1
 
-        #os.system('cls')
-        #print(f"analisando {i} de {len(board)} linhas em board")
+        os.system('cls')
+        print(f"analisando {i} de {len(board)} linhas em board")
 
     #os.system('cls')
     print(loops)
