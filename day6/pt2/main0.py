@@ -52,31 +52,34 @@ def run_maze(board, pos):
 
 
 def main():
-    board = [list(line) for line in open("../input.txt").read().split('\n')]
+    board = [list(line) for line in open("../demo.txt").read().split('\n')]
     pos = init_pos(board)
-    path = set()
+    path = deepcopy(board)
 
     dir = 0
     while actions(board, pos, dir) is not None:
         action, dir = actions(board, pos, dir)
         pos = action
-        path.add(pos)
-
+        path[pos[0]][pos[1]] = 'X'
+    #print(*path, sep='\n')
     pos = init_pos(board)
     
     loops = 0
-    sex = 0
-    for i, j in path:
-        sex += 1
-        new_board = deepcopy(board)
-        new_board[i][j] = '#'
-        if run_maze(new_board, pos):
-            loops += 1
+    for i, line in enumerate(path):
+        for j, item in enumerate(line):
 
-        os.system('cls')
-        print(f"analisando {sex} de {len(path)} coords em board")
+            if item != 'X':
+                continue
 
-    os.system('cls')
+            new_board = deepcopy(board)
+            new_board[i][j] = '#'
+            if run_maze(new_board, pos):
+                loops += 1
+
+        #os.system('cls')
+        #print(f"analisando {i} de {len(board)} linhas em board")
+
+    #os.system('cls')
     print(loops)
 
 main()
