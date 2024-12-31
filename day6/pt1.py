@@ -32,7 +32,7 @@ def init_pos(board):
 
 def main():
 
-    board = [list(line) for line in open("../input.txt").read().split('\n')]
+    board = [list(line) for line in open("input.txt").read().split('\n')]
     pos = init_pos(board)
     dir = 0
 
