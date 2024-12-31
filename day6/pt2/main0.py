@@ -1,45 +1,19 @@
-LOOPS = 0
+from copy import deepcopy
+import os
 
-def search_loop(board, pos, dir):
+def actions(board, pos, dir):
 
-    global LOOPS
-
-    new_pos, new_dir = actions(board, pos, dir+1, SEARCH_LOOPS=False)
-    while True:
-        
-        if actions(board, new_pos, new_dir, SEARCH_LOOPS=False) is None:
-            return None
-
-        new_pos, new_dir = actions(board, new_pos, new_dir, SEARCH_LOOPS=False)
-        if dir % 2 == 0: #if dir we first bumped == vertical
-            if new_pos[1] == pos[1]:
-                LOOPS += 1
-                return None
-        else: #if dir we first bumped == horizontal
-            if new_pos[0] == pos[0]:
-                LOOPS += 1
-                return None
-        if new_dir == dir+4:
-            return None
-
-
-def actions(board, pos, dir, SEARCH_LOOPS):
-    
     directions = [
         [-1,0], [0, 1],
         [1, 0], [0,-1],
     ]
 
-    new_pos_x = pos[0] + directions[dir % 4][0]
-    new_pos_y = pos[1] + directions[dir % 4][1]
-
+    new_pos_x = pos[0] + directions[dir%4][0]
+    new_pos_y = pos[1] + directions[dir%4][1]
     try:
     #if obstruction, change dir to right
         if board[new_pos_x][new_pos_y] == '#':
-            if SEARCH_LOOPS == True:
-                search_loop(board, pos, dir)
-            return actions(board, pos, dir+1, SEARCH_LOOPS=False)
-
+            return actions(board, pos, dir+1)
     #if out of bounds, finished the maze. stop everything.
     except: return None
 
@@ -47,7 +21,7 @@ def actions(board, pos, dir, SEARCH_LOOPS):
     return ((new_pos_x, new_pos_y), dir)
 
 
-def result(board, pos):
+def result(board, pos, action):
     board[pos[0]][pos[1]] = 'X'
     return board
 
@@ -59,17 +33,51 @@ def init_pos(board):
                 return (line_index, col_index)
     raise Exception("No player found in board. Expected '^' somewhere.")
 
-def main():
+def run_maze(board, pos):
 
-    board = [list(line) for line in open("../demo.txt").read().split('\n')]
-    pos = init_pos(board)
     dir = 0
+    explored = set()
 
-    while actions(board, pos, dir, SEARCH_LOOPS=False) is not None:
-        action, dir = actions(board, pos, dir, SEARCH_LOOPS=True)
-        board = result(board, pos)
+    while actions(board, pos, dir) is not None:
+
+        action, dir = actions(board, pos, dir)
+        board = result(board, pos, action)
         pos = action
 
-    print(LOOPS)
+        if (action, dir%4) in explored:
+            return True
+        else:
+            explored.add((action, dir%4))
+    return False
+    
+
+def main():
+    board = [list(line) for line in open("../input.txt").read().split('\n')]
+    pos = init_pos(board)
+    
+    loops = 0
+    for i, line in enumerate(board):
+        for j, item in enumerate(line):
+
+            new_board = deepcopy(board)
+
+            #edge case of finding player
+            if item == '^':
+                continue
+            #already block there, already calculated.
+            if item == '#':
+                continue
+            
+            new_board[i][j] = '#'
+            if run_maze(new_board, pos):
+                loops += 1
+        #debug
+        if i == 5:
+            break
+        #os.system('cls')
+        #print(f"analisando {i} de {len(board)} linhas em board")
+
+    #os.system('cls')
+    #print(loops)
 
 main()
